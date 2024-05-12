@@ -1,0 +1,10 @@
+<resources>
+    <string name="base_url">https://oob-carteira-digital-website.vercel.app</string>
+    <string name="app_name">Carteira Digital</string>
+    <string name="login_title">Carteira Digital</string>
+    <string name="login">CPF</string>
+    <string name="password">Senha</string>
+    <string name="leave">Sair</string>
+    <string name="forgot_password">Esqueci a minha senha</string>
+    <string name="login_button">LOGIN</string>
+</resources>
