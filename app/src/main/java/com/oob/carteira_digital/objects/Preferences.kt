@@ -8,6 +8,7 @@ import androidx.core.content.edit
 object Preferences {
     const val PREF_NAME: String = "carteiraDigitalPreferences"
     const val KEY_AUTH_COOKIE: String = "authCookies"
+    const val KEY_AUTH_EXPIRE_DATE: String = "authExpireDate"
 
     private var prefs: SharedPreferences? = null
 
@@ -22,7 +23,25 @@ object Preferences {
         return if (token.isNotEmpty()) "token=$token" else ""
     }
 
+    private fun extractTokenExpireDate(tokenString: String): String {
+        val regex = Regex("""Max-Age=(\d+)""")
+        val matchResult = regex.find(tokenString)
+        val maxAge = matchResult?.groups?.get(1)?.value ?: ""
+        val maxAgeInt = maxAge.toIntOrNull() ?: return ""
+
+        val currentTimeMillis = System.currentTimeMillis()
+        val expireDate = currentTimeMillis + (maxAgeInt * 1000)
+
+        return expireDate.toString()
+    }
+
+    private fun setAuthCookieExpireDate(token: String) {
+        val expireDate = extractTokenExpireDate(token)
+        Key.KEY_AUTH_EXPIRE_DATE.setString(expireDate)
+    }
+
     fun setAuthCookie(token: String) {
+        setAuthCookieExpireDate(token)
         val extractedToken = extractToken(token)
         Key.KEY_AUTH_TOKEN.setString(extractedToken)
     }
@@ -31,8 +50,12 @@ object Preferences {
         return Key.KEY_AUTH_TOKEN.getString()
     }
 
+    fun getAuthExpireDate(): String {
+        return Key.KEY_AUTH_EXPIRE_DATE.getString().toString()
+    }
+
     private enum class Key {
-        KEY_AUTH_TOKEN;
+        KEY_AUTH_TOKEN, KEY_AUTH_EXPIRE_DATE;
 
         fun getBoolean(): Boolean? =
             if (prefs!!.contains(name)) prefs!!.getBoolean(name, false) else null

@@ -1,5 +1,6 @@
 package com.oob.carteira_digital.models
 
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -24,17 +25,14 @@ class SessionManager {
         viewModel = ViewModelProvider(viewModelStoreOwner)[VMAccount::class.java]
     }
 
-    fun createSession(cookie: String) {
-        editor.putString(Preferences.KEY_AUTH_COOKIE, cookie)
-        editor.commit()
-
+    fun startSession() {
         val i = Intent(con, MainActivity2::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         con.startActivity(i)
     }
 
-    suspend fun isLoggedIn(): Boolean {
+    fun isLoggedIn(): Boolean {
         return viewModel.checkLogin()
     }
 

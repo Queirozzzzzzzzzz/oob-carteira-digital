@@ -7,18 +7,14 @@ class VMAccount : ViewModel() {
     private val account = Account()
 
     suspend fun login(cpf: String, password: String): String {
-        if (cpf.isEmpty() || password.isEmpty()) {
-            return "Complete os campos em branco."
-        }
-
-        return if (account.login(cpf, password)) {
-            "Logado."
-        } else {
-            "incorrect"
-        }
+        return account.login(cpf, password)
     }
 
-    suspend fun checkLogin(): Boolean {
+    suspend fun biometricLogin(): String {
+        return account.biometricLogin()
+    }
+
+    fun checkLogin(): Boolean {
         return account.checkLogin()
     }
 

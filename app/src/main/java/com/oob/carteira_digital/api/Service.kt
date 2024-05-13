@@ -1,7 +1,5 @@
 package com.oob.carteira_digital.api
 
-import android.content.res.Resources
-import com.oob.carteira_digital.R
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
