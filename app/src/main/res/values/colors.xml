@@ -5,4 +5,5 @@
     <color name="blue">#003E71</color>
     <color name="blueButton">#003E71</color>
     <color name="white_transparent">#40FFFFFF</color>
+    <color name="half_black">#40000000</color>
 </resources>

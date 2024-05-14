@@ -15,6 +15,7 @@ import com.oob.carteira_digital.objects.Preferences
 import com.oob.carteira_digital.viewmodels.VMAccount
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.job
 import kotlinx.coroutines.launch
 
 
@@ -54,7 +55,16 @@ class LoginActivity : AppCompatActivity() {
             val password = binding.password.text.toString()
 
             CoroutineScope(Dispatchers.IO).launch {
+                val dialogJob = launch {
+                    try {
+                        showLoadingDialog()
+                        coroutineContext.job.join()
+                    } finally {
+                        hideLoadingDialog()
+                    }
+                }
                 val result = viewModel.login(cpf, password)
+                dialogJob.cancel()
                 runOnUiThread {
                     if (result != "true") {
                         Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT).show()
@@ -87,7 +97,16 @@ class LoginActivity : AppCompatActivity() {
                 override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
                     super.onAuthenticationSucceeded(result)
                     CoroutineScope(Dispatchers.IO).launch {
+                        val dialogJob = launch {
+                            try {
+                                showLoadingDialog()
+                                coroutineContext.job.join()
+                            } finally {
+                                hideLoadingDialog()
+                            }
+                        }
                         val result = viewModel.biometricLogin()
+                        dialogJob.cancel()
                         runOnUiThread {
                             if (result != "true") {
                                 Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT)
@@ -107,6 +126,20 @@ class LoginActivity : AppCompatActivity() {
 
         binding.fingerprint.setOnClickListener {
             biometricPrompt.authenticate(promptInfo)
+        }
+    }
+
+    private fun showLoadingDialog() {
+        runOnUiThread {
+            binding.loadingBg.visibility = View.VISIBLE
+            binding.loading.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideLoadingDialog() {
+        runOnUiThread {
+            binding.loadingBg.visibility = View.GONE
+            binding.loading.visibility = View.GONE
         }
     }
 }
