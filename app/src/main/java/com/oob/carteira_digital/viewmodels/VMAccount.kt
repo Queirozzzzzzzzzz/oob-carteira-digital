@@ -10,15 +10,12 @@ class VMAccount : ViewModel() {
         return account.login(cpf, password)
     }
 
-    suspend fun biometricLogin(): String {
-        return account.biometricLogin()
-    }
-
     fun checkLogin(): Boolean {
         return account.checkLogin()
     }
 
-    suspend fun saveAccount() {
-        val info = account.getAccountInfo()
+    suspend fun getInfo(): List<String> {
+        val info  = account.getAccountInfo()
+        return info
     }
 }

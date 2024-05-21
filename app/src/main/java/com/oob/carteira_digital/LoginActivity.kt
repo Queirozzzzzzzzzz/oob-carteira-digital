@@ -4,12 +4,9 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricPrompt
-import androidx.biometric.BiometricPrompt.PromptInfo
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.oob.carteira_digital.databinding.ActivityLoginBinding
+import com.oob.carteira_digital.models.DBHelper
 import com.oob.carteira_digital.models.SessionManager
 import com.oob.carteira_digital.objects.Preferences
 import com.oob.carteira_digital.viewmodels.VMAccount
@@ -24,6 +21,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var session: SessionManager
     private lateinit var viewModel: VMAccount
+    private var db = DBHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +36,6 @@ class LoginActivity : AppCompatActivity() {
             session.startSession()
         } else {
             setLogin()
-            checkBiometricSupported()
         }
     }
 
@@ -46,6 +43,22 @@ class LoginActivity : AppCompatActivity() {
         super.onResume()
         if (session.isLoggedIn()) {
             session.startSession()
+        }
+    }
+
+    private fun startSession() {
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val info = viewModel.getInfo()
+                db.saveAccount(info)
+                session.startSession()
+            } catch (e: Exception) {
+                session.clearSession()
+                runOnUiThread {
+                    Toast.makeText(applicationContext, "Houve um erro interno.", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
         }
     }
 
@@ -69,63 +82,10 @@ class LoginActivity : AppCompatActivity() {
                     if (result != "true") {
                         Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT).show()
                     } else {
-                        session.startSession()
+                        startSession()
                     }
                 }
             }
-        }
-    }
-
-    private fun checkBiometricSupported() {
-        val biometricManager = BiometricManager.from(this)
-
-        when (biometricManager.canAuthenticate()) {
-            BiometricManager.BIOMETRIC_SUCCESS -> biometricLogin()
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE, BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE, BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> binding.fingerprint.setVisibility(
-                View.GONE
-            )
-
-            else -> {}
-        }
-    }
-
-    private fun biometricLogin() {
-        val executor = ContextCompat.getMainExecutor(this)
-
-        val biometricPrompt =
-            BiometricPrompt(this, executor, object : BiometricPrompt.AuthenticationCallback() {
-                override fun onAuthenticationSucceeded(result: BiometricPrompt.AuthenticationResult) {
-                    super.onAuthenticationSucceeded(result)
-                    CoroutineScope(Dispatchers.IO).launch {
-                        val dialogJob = launch {
-                            try {
-                                showLoadingDialog()
-                                coroutineContext.job.join()
-                            } finally {
-                                hideLoadingDialog()
-                            }
-                        }
-                        val result = viewModel.biometricLogin()
-                        dialogJob.cancel()
-                        runOnUiThread {
-                            if (result != "true") {
-                                Toast.makeText(applicationContext, result, Toast.LENGTH_SHORT)
-                                    .show()
-                            } else {
-                                session.startSession()
-                            }
-                        }
-                    }
-                }
-            })
-
-        val promptInfo = PromptInfo.Builder().setTitle("OOB Carteira Digital")
-            .setDescription("Use sua digital para entrar").setNegativeButtonText("Cancelar").build()
-
-        biometricPrompt.authenticate(promptInfo)
-
-        binding.fingerprint.setOnClickListener {
-            biometricPrompt.authenticate(promptInfo)
         }
     }
 

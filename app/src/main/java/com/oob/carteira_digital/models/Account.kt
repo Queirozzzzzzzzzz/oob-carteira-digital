@@ -2,14 +2,16 @@ package com.oob.carteira_digital.models
 
 import android.util.Log
 import com.google.gson.Gson
-import com.oob.carteira_digital.objects.Preferences
 import com.oob.carteira_digital.api.Service
+import com.oob.carteira_digital.objects.Preferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.util.Date
 
+
 class Account {
     private val service = Service().getService()
+    private val gson = Gson()
 
     suspend fun login(cpf: String, password: String): String {
         if (cpf.isEmpty() || password.isEmpty()) {
@@ -27,16 +29,9 @@ class Account {
             Preferences.setAuthCookie(response.headers().values("Set-Cookie").toString())
             "true"
         } else {
-            val gson = Gson()
             val result = gson.fromJson(response.errorBody()?.string(), Any::class.java)
             result.toString()
         }
-    }
-
-    suspend fun biometricLogin(): String {
-        val cpf = "00000000000"
-        val password = "a"
-        return login(cpf, password)
     }
 
     fun checkLogin(): Boolean {
@@ -52,22 +47,29 @@ class Account {
         return !isExpired
     }
 
-    suspend fun getAccountInfo(): String {
+    suspend fun getAccountInfo(): List<String> {
         val response = withContext(Dispatchers.IO) {
             service.accountInfo()
         }
 
         return if (response.isSuccessful) {
             try {
-                val result = response.body().toString()
-                Log.d("GET_ACCOUNT_INFO", result)
-                result
+                val result = gson.fromJson(response.body()?.string(), Any::class.java)
+                var stringList = (result as Map<*, *>).values.map { it.toString() }
+                stringList = stringList.map {
+                    if (it.endsWith(".0")) {
+                        it.substring(0, it.length - 2)
+                    } else {
+                        it
+                    }
+                }
+                stringList
             } catch (e: Exception) {
                 Log.e("GET_ACCOUNT_INFO", e.toString())
-                ""
+                emptyList()
             }
         } else {
-            ""
+            emptyList()
         }
     }
 }

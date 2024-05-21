@@ -7,8 +7,6 @@ import androidx.core.content.edit
 
 object Preferences {
     const val PREF_NAME: String = "carteiraDigitalPreferences"
-    const val KEY_AUTH_COOKIE: String = "authCookies"
-    const val KEY_AUTH_EXPIRE_DATE: String = "authExpireDate"
 
     private var prefs: SharedPreferences? = null
 
@@ -54,8 +52,16 @@ object Preferences {
         return Key.KEY_AUTH_EXPIRE_DATE.getString().toString()
     }
 
+    fun setAccountId(id: String) {
+        Key.KEY_ACCOUNT_ID.setString(id)
+    }
+
+    fun getAccountId(): String {
+        return Key.KEY_ACCOUNT_ID.getString().toString()
+    }
+
     private enum class Key {
-        KEY_AUTH_TOKEN, KEY_AUTH_EXPIRE_DATE;
+        KEY_AUTH_TOKEN, KEY_AUTH_EXPIRE_DATE, KEY_ACCOUNT_ID;
 
         fun getBoolean(): Boolean? =
             if (prefs!!.contains(name)) prefs!!.getBoolean(name, false) else null

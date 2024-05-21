@@ -1,6 +1,5 @@
 package com.oob.carteira_digital.models
 
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
@@ -11,7 +10,9 @@ import com.oob.carteira_digital.MainActivity2
 import com.oob.carteira_digital.viewmodels.VMAccount
 import com.oob.carteira_digital.objects.Preferences
 
-class SessionManager {
+class
+
+SessionManager {
     private var pref: SharedPreferences
     private var editor: SharedPreferences.Editor
     private var con: Context
@@ -34,6 +35,11 @@ class SessionManager {
 
     fun isLoggedIn(): Boolean {
         return viewModel.checkLogin()
+    }
+
+    fun clearSession() {
+        editor.clear()
+        editor.commit()
     }
 
     fun endSession() {
