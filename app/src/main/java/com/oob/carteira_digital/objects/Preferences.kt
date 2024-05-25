@@ -38,6 +38,10 @@ object Preferences {
         Key.KEY_AUTH_EXPIRE_DATE.setString(expireDate)
     }
 
+    fun setAuthExpireDate(expireDate: String) {
+        Key.KEY_AUTH_EXPIRE_DATE.setString(expireDate)
+    }
+
     fun setAuthCookie(token: String) {
         setAuthCookieExpireDate(token)
         val extractedToken = extractToken(token)
@@ -60,8 +64,24 @@ object Preferences {
         return Key.KEY_ACCOUNT_ID.getString().toString()
     }
 
+    fun setAuthCpf(cpf: String) {
+        Key.KEY_AUTH_CPF.setString(cpf)
+    }
+
+    fun getAuthCpf(): String {
+        return Key.KEY_AUTH_CPF.getString().toString()
+    }
+
+    fun setAuthPassword(password: String) {
+        Key.KEY_AUTH_PASSWORD.setString(password)
+    }
+
+    fun getAuthPassword(): String {
+        return Key.KEY_AUTH_PASSWORD.getString().toString()
+    }
+
     private enum class Key {
-        KEY_AUTH_TOKEN, KEY_AUTH_EXPIRE_DATE, KEY_ACCOUNT_ID;
+        KEY_AUTH_TOKEN, KEY_AUTH_EXPIRE_DATE, KEY_ACCOUNT_ID, KEY_AUTH_CPF, KEY_AUTH_PASSWORD;
 
         fun getBoolean(): Boolean? =
             if (prefs!!.contains(name)) prefs!!.getBoolean(name, false) else null

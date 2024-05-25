@@ -27,10 +27,26 @@ class Account {
 
         return if (response.isSuccessful) {
             Preferences.setAuthCookie(response.headers().values("Set-Cookie").toString())
+            Preferences.setAuthCpf(cpf)
+            Preferences.setAuthPassword(password)
             "true"
         } else {
             val result = gson.fromJson(response.errorBody()?.string(), Any::class.java)
             result.toString()
+        }
+    }
+
+    suspend fun biometricLogin(): String {
+        return login(Preferences.getAuthCpf(), Preferences.getAuthPassword())
+    }
+
+    fun offlineLogin(cpf: String, password: String): String {
+        return if (cpf == Preferences.getAuthCpf() && password == Preferences.getAuthPassword()) {
+            val expireDate = (System.currentTimeMillis() + 3600000).toString()
+            Preferences.setAuthExpireDate(expireDate)
+            "true"
+        } else {
+            "Login inválido."
         }
     }
 
@@ -39,6 +55,7 @@ class Account {
         try {
             val currentDate = Date(System.currentTimeMillis())
             val expireDate = Date(Preferences.getAuthExpireDate().toLong())
+            Log.d("EXPIRE_DATE", expireDate.toString())
             isExpired = currentDate > expireDate
         } catch (e: Exception) {
             Log.e("CHECK_LOGIN", e.toString())

@@ -3,31 +3,29 @@ package com.oob.carteira_digital.models
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.util.Log
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import com.oob.carteira_digital.BaseActivity
 import com.oob.carteira_digital.LoginActivity
-import com.oob.carteira_digital.MainActivity2
 import com.oob.carteira_digital.viewmodels.VMAccount
 import com.oob.carteira_digital.objects.Preferences
 
 class
 
 SessionManager {
-    private var pref: SharedPreferences
-    private var editor: SharedPreferences.Editor
     private var con: Context
     private var PRIVATE_MODE: Int = 0
     private var viewModel: VMAccount
 
     constructor(viewModelStoreOwner: ViewModelStoreOwner, con: Context) {
         this.con = con
-        pref = con.getSharedPreferences(Preferences.PREF_NAME, PRIVATE_MODE)
-        editor = pref.edit()
         viewModel = ViewModelProvider(viewModelStoreOwner)[VMAccount::class.java]
     }
 
+
     fun startSession() {
-        val i = Intent(con, MainActivity2::class.java)
+        val i = Intent(con, BaseActivity::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         con.startActivity(i)
@@ -37,15 +35,8 @@ SessionManager {
         return viewModel.checkLogin()
     }
 
-    fun clearSession() {
-        editor.clear()
-        editor.commit()
-    }
-
     fun endSession() {
-        editor.clear()
-        editor.commit()
-
+        Preferences.setAuthExpireDate("")
         val i = Intent(con, LoginActivity::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

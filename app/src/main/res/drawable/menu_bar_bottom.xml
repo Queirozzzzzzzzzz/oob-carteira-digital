@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/Home"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/img_9"
+        android:title="Início" />
+
+    <item
+        android:id="@+id/Card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/img_5"
+        android:title="Carteirinha" />
+
+    <item
+        android:id="@+id/qrcode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/img_8"
+        android:title="QrCode" />
+
+    <item
+        android:id="@+id/Notification"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/img_7"
+        android:title="Recados
+" />
+
+    <item
+        android:id="@+id/Settings"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:icon="@drawable/img_10"
+        android:title="Configurações" />
+
+</menu>
