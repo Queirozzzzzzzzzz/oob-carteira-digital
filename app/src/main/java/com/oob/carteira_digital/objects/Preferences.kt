@@ -80,8 +80,16 @@ object Preferences {
         return Key.KEY_AUTH_PASSWORD.getString().toString()
     }
 
+    fun setDarkTheme(darkTheme: Boolean) {
+        Key.KEY_DARK_THEME.setBoolean(darkTheme)
+    }
+
+    fun isDarkTheme(): Boolean {
+        return Key.KEY_DARK_THEME.getBoolean() ?: false
+    }
+
     private enum class Key {
-        KEY_AUTH_TOKEN, KEY_AUTH_EXPIRE_DATE, KEY_ACCOUNT_ID, KEY_AUTH_CPF, KEY_AUTH_PASSWORD;
+        KEY_AUTH_TOKEN, KEY_AUTH_EXPIRE_DATE, KEY_ACCOUNT_ID, KEY_AUTH_CPF, KEY_AUTH_PASSWORD, KEY_DARK_THEME;
 
         fun getBoolean(): Boolean? =
             if (prefs!!.contains(name)) prefs!!.getBoolean(name, false) else null

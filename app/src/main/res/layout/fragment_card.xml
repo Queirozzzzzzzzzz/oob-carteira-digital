@@ -1,0 +1,136 @@
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CardFragment">
+
+    <include android:id="@+id/header" layout="@layout/header" />
+
+    <TextView
+        android:id="@+id/header_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:text="@string/card_title"
+        android:textColor="#FFFFFF"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/header" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="@dimen/card_width"
+        android:layout_height="@dimen/card_height"
+        android:background="@drawable/card_background"
+        android:elevation="10dp"
+        android:rotation="-90"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        tools:ignore="MissingConstraints">
+
+        <ImageView
+            android:id="@+id/profile_picture"
+            android:layout_width="96dp"
+            android:layout_height="111dp"
+            android:layout_marginEnd="364dp"
+            android:layout_marginBottom="112dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/profile_picture"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <ImageView
+            android:id="@+id/senai_logo"
+            android:layout_width="165dp"
+            android:layout_height="56dp"
+            android:layout_marginEnd="324dp"
+            android:layout_marginBottom="240dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/senai_logo"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+
+        <TextView
+            android:id="@+id/institution"
+            android:layout_width="263dp"
+            android:layout_height="88dp"
+            android:text="Escola Senai 'Hermenegildo Campos de Almeida'"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="7pt"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.843"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.013" />
+
+        <TextView
+            android:id="@+id/full_name"
+            android:layout_width="230dp"
+            android:layout_height="70dp"
+            android:text="Nome: Antonio Mazzucca"
+            android:textColor="@color/black"
+            android:textSize="7pt"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.225"
+            app:layout_constraintStart_toStartOf="@+id/institution"
+            app:layout_constraintTop_toBottomOf="@+id/institution"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/cpf"
+            android:layout_width="197dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="28dp"
+            android:rotation="0"
+            android:text="CPF: 45676598700"
+            android:textColor="@color/black"
+            android:textSize="7pt"
+            app:layout_constraintStart_toEndOf="@+id/profile_picture"
+            app:layout_constraintTop_toBottomOf="@+id/institution" />
+
+        <TextView
+            android:id="@+id/birth_date"
+            android:layout_width="182dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="52dp"
+            android:text="Data de nascimento: 26/02/00"
+            android:textColor="@color/black"
+            android:textSize="7pt"
+            app:layout_constraintStart_toEndOf="@+id/profile_picture"
+            app:layout_constraintTop_toBottomOf="@+id/institution" />
+
+        <TextView
+            android:id="@+id/course"
+            android:layout_width="182dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="100dp"
+            android:text="Curso :Desenvolvimento de sistemas"
+            android:textColor="@color/black"
+            android:textSize="7pt"
+            app:layout_constraintStart_toEndOf="@+id/profile_picture"
+            app:layout_constraintTop_toBottomOf="@+id/institution" />
+
+        <TextView
+            android:id="@+id/c_class"
+            android:layout_width="182dp"
+            android:layout_height="46dp"
+            android:layout_marginStart="80dp"
+            android:layout_marginTop="148dp"
+            android:text="Turma: DSI 3 SESI"
+            android:textColor="@color/black"
+            android:textSize="7pt"
+            app:layout_constraintStart_toEndOf="@+id/profile_picture"
+            app:layout_constraintTop_toBottomOf="@+id/institution" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

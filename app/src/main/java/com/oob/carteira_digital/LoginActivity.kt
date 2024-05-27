@@ -42,6 +42,8 @@ class LoginActivity : AppCompatActivity(), InternetConnectionCallback {
 
         InternetConnectionObserver.instance(this).setCallback(this).register()
 
+        session.setTheme()
+
         if (session.isLoggedIn()) {
             session.startSession()
         } else {
@@ -66,7 +68,6 @@ class LoginActivity : AppCompatActivity(), InternetConnectionCallback {
         CoroutineScope(Dispatchers.IO).launch {
             try {
                 if (isConnected) {
-                    Log.d("Login", "Start Session")
                     val info = viewModel.getInfo()
                     db.saveAccount(info)
                 }

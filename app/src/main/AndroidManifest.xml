@@ -17,34 +17,37 @@
         android:theme="@style/Theme.Carteiradigital"
         tools:targetApi="31">
         <activity
-            android:name=".QrCodeActivity"
+            android:name=".SupportFragment"
             android:exported="false" />
         <activity
-            android:name=".SettingsActivity"
+            android:name=".EditAccountFragment"
             android:exported="false" />
         <activity
-            android:name=".SupportActivity"
+            android:name=".QrCodeFragment"
             android:exported="false" />
         <activity
-            android:name=".AccountActivity"
+            android:name=".SettingsFragment"
             android:exported="false" />
         <activity
-            android:name=".NewPasswordActivity"
+            android:name=".AccountFragment"
             android:exported="false" />
         <activity
-            android:name=".NewCardActivity"
+            android:name=".NewPasswordFragment"
             android:exported="false" />
         <activity
-            android:name=".NotificationActivity"
+            android:name=".NewCardFragment"
             android:exported="false" />
         <activity
-            android:name=".CardActivity"
+            android:name=".MessagesFragment"
+            android:exported="false" />
+        <activity
+            android:name=".CardFragment"
             android:exported="false" />
         <activity
             android:name=".BaseActivity"
             android:exported="false" />
         <activity
-            android:name=".HomeActivity"
+            android:name=".HomeFragment"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"

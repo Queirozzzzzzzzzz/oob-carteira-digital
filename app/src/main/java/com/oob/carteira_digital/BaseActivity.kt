@@ -1,14 +1,12 @@
 package com.oob.carteira_digital
 
 import android.os.Bundle
-import android.util.Log
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.oob.carteira_digital.databinding.ActivityBaseBinding
-import com.oob.carteira_digital.databinding.ActivityLoginBinding
 import com.oob.carteira_digital.models.SessionManager
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,26 +25,30 @@ open class BaseActivity : AppCompatActivity() {
         binding.bottomNavView.setOnItemSelectedListener { item ->
             val itemId = item.itemId
             when (itemId) {
-                R.id.Home -> {
-                    startSession(HomeActivity(), false)
+                R.id.home -> {
+                    startSession(HomeFragment(), false)
                 }
-                R.id.Card -> {
-                    startSession(CardActivity(), false)
+
+                R.id.card -> {
+                    startSession(CardFragment(), false)
                 }
-                R.id.qrcode -> {
-                    startSession(QrCodeActivity(), false)
+
+                R.id.qr_code -> {
+                    startSession(QrCodeFragment(), false)
                 }
-                R.id.Notification -> {
-                    startSession(NotificationActivity(), false)
+
+                R.id.messages -> {
+                    startSession(MessagesFragment(), false)
                 }
+
                 else -> {
-                    startSession(SettingsActivity(), false)
+                    startSession(SettingsFragment(), false)
                 }
             }
             true
         }
 
-        startSession(HomeActivity(), true)
+        startSession(HomeFragment(), true)
         session = SessionManager(this, applicationContext)
         checkLogin()
     }
@@ -62,6 +64,58 @@ open class BaseActivity : AppCompatActivity() {
         }
 
         fragmentTransaction.commit()
+    }
+
+    // FUNÇÃO MUDAR ACTIVITY POR CARDVIEW
+    fun cardFragment(view: View) {
+        binding.bottomNavView.menu.findItem(R.id.card).isChecked = true
+
+        startSession(CardFragment(), false)
+    }
+
+    fun settingsFragment(view: View) {
+        binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
+        startSession(SettingsFragment(), false)
+    }
+
+    fun homeFragment(view: View) {
+        binding.bottomNavView.menu.findItem(R.id.home).isChecked = true
+        startSession(HomeFragment(), false)
+    }
+
+    fun qrCodeFragment(view: View) {
+        binding.bottomNavView.menu.findItem(R.id.qr_code).isChecked = true
+        startSession(QrCodeFragment(), false)
+    }
+
+    fun messagesFragment(view: View) {
+        binding.bottomNavView.menu.findItem(R.id.messages).isChecked = true
+        startSession(MessagesFragment(), false)
+    }
+
+    fun newCardFragment(view: View) {
+        binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
+        startSession(NewCardFragment(), false)
+    }
+
+    fun accountFragment(view: View) {
+        binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
+        startSession(AccountFragment(), false)
+    }
+
+    fun newPasswordFragment(view: View) {
+        binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
+        startSession(NewPasswordFragment(), false)
+    }
+
+    fun supportFragment(view: View) {
+        binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
+        startSession(SupportFragment(), false)
+    }
+
+    fun editAccountFragment(view: View) {
+        binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
+        startSession(EditAccountFragment(), false)
     }
 
     override fun onResume() {

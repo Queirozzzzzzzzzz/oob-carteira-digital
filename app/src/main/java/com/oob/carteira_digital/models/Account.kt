@@ -55,7 +55,6 @@ class Account {
         try {
             val currentDate = Date(System.currentTimeMillis())
             val expireDate = Date(Preferences.getAuthExpireDate().toLong())
-            Log.d("EXPIRE_DATE", expireDate.toString())
             isExpired = currentDate > expireDate
         } catch (e: Exception) {
             Log.e("CHECK_LOGIN", e.toString())

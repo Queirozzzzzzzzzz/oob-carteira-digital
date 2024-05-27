@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/blue"
+    android:background="@color/base_blue"
     tools:context=".LoginActivity">
 
     <LinearLayout
@@ -41,9 +41,9 @@
                 android:id="@+id/username_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/login"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
+                android:text="@string/login_cpf"
+                android:textColor="@color/white"
+                android:textSize="@dimen/input_label_size"
                 android:layout_marginTop="12dp"
                 android:textStyle="bold"/>
 
@@ -52,19 +52,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/edittext_background"
+                android:background="@drawable/input_background"
                 android:inputType="text"
-                android:padding="8dp"
-                android:textColorHint="@color/white_transparent"
-                android:textColor="@color/white" />
+                android:padding="@dimen/input_padding"
+                android:textColorHint="@color/text_hint"
+                android:textColor="?android:textColorPrimary" />
 
             <TextView
                 android:id="@+id/password_label"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/password"
-                android:textColor="#FFFFFF"
-                android:textSize="16sp"
+                android:text="@string/login_password"
+                android:textColor="@color/white"
+                android:textSize="@dimen/input_label_size"
                 android:layout_marginTop="12dp"
                 android:textStyle="bold"/>
 
@@ -73,11 +73,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword"
-                android:padding="8dp"
-                android:textColor="@color/white"
+                android:padding="@dimen/input_padding"
+                android:textColor="?android:textColorPrimary"
                 android:layout_marginTop="8dp"
-                android:textColorHint="@color/white_transparent"
-                android:background="@drawable/edittext_background"/>
+                android:textColorHint="@color/text_hint"
+                android:background="@drawable/input_background"/>
 
             <Button
                 android:id="@+id/login_button"
@@ -85,15 +85,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
                 android:backgroundTint="@android:color/white"
-                android:text="@string/login_button"
-                android:textColor="@color/blue"
+                android:textColor="@color/base_blue"
+                android:text="@string/login_submit"
                 android:textStyle="bold"/>
 
             <TextView
                 android:id="@+id/forgot_password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/forgot_password"
+                android:text="@string/login_forgot_password"
                 android:layout_marginTop="16dp"
                 android:textColor="@color/white"
                 android:textAlignment="center"
@@ -111,7 +111,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/fingerprint"
-                android:src="@drawable/baseline_fingerprint_24"/>
+                android:src="@drawable/fingerprint"/>
 
         </LinearLayout>
     </LinearLayout>
@@ -124,7 +124,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/half_black">
+            android:background="@color/transparent_black">
         </View>
     </LinearLayout>
 

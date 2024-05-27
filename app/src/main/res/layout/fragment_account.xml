@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical"
+    tools:context=".BaseActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context=".AccountFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <include
+                android:id="@+id/header"
+                layout="@layout/header" />
+
+            <TextView
+                android:id="@+id/header_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/account_title"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/header" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!--  Título "E-mail"  -->
+            <TextView
+                android:id="@+id/email_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="@string/account_email"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/text_label_size"
+                android:textStyle="bold" />
+            <!--  Subtítulo "E-mail"  -->
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="antoniommazzucc@gmail.com"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/small_text_v2" />
+            <!--  Título "Data de Nascimento"  -->
+            <TextView
+                android:id="@+id/birth_date_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Data de Nascimento"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/text_label_size"
+                android:textStyle="bold" />
+            <!--  Subtítulo "Data de Nascimento"  -->
+            <TextView
+                android:id="@+id/birth_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="26/04/2007"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/small_text_v2" />
+            <!--  Título "Matrícula"  -->
+            <TextView
+                android:id="@+id/registration_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Matrícula"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/text_label_size"
+                android:textStyle="bold" />
+            <!--  Subtítulo "Matrícula"  -->
+            <TextView
+                android:id="@+id/registration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="00000000"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/small_text_v2" />
+            <!--  Título "CPF"  -->
+            <TextView
+                android:id="@+id/cpf_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="CPF"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/text_label_size"
+                android:textStyle="bold" />
+            <!--  Subtítulo "CPF"  -->
+            <TextView
+                android:id="@+id/cpf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="000.000.000-00"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/small_text_v2" />
+            <!--  Título "Nível"  -->
+            <TextView
+                android:id="@+id/level_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Nível"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/text_label_size"
+                android:textStyle="bold" />
+            <!--  Subtítulo "Nível"  -->
+            <TextView
+                android:id="@+id/level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Itinerário em Formação Técnica e Profissional"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/small_text_v2" />
+            <!--  Título "Curso"  -->
+            <TextView
+                android:id="@+id/course_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Curso"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/text_label_size"
+                android:textStyle="bold" />
+            <!--  Subtítulo "Curso"  -->
+            <TextView
+                android:id="@+id/course"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Técnico em Desenvolvimento de Sistemas"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/small_text_v2" />
+            <!--  Título "Turma"  -->
+            <TextView
+                android:id="@+id/c_class_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:text="Turma"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/text_label_size"
+                android:textStyle="bold" />
+            <!--  Subtítulo "Turma"  -->
+            <TextView
+                android:id="@+id/c_class"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="DSI 2 SESI"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="@dimen/small_text_v2" />
+            <!--  Botão "Editar"  -->
+            <!--  Botão "Voltar"  -->
+            <Button
+                android:onClick="editAccountFragment"
+                android:id="@+id/edit_btn"
+                android:layout_width="300dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:backgroundTint="?android:textColorPrimary"
+                android:text="@string/account_edit_info"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="@dimen/text_label_size" />
+
+            <LinearLayout
+                android:id="@+id/go_back"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_margin="16dp"
+                android:onClick="settingsFragment"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="@dimen/arrow_width"
+                    android:layout_height="@dimen/arrow_height"
+                    android:rotation="180"
+                    android:src="@drawable/arrow_icon" />
+
+                <TextView
+                    android:id="@+id/go_back_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="@string/go_back"
+                    android:textAlignment="center"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/go_back_text_size"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
