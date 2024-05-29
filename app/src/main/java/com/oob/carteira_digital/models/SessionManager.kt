@@ -16,7 +16,6 @@ class
 
 SessionManager {
     private var con: Context
-    private var PRIVATE_MODE: Int = 0
     private var viewModel: VMAccount
 
     constructor(viewModelStoreOwner: ViewModelStoreOwner, con: Context) {

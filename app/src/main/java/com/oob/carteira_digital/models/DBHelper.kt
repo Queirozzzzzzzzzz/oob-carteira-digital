@@ -4,38 +4,36 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
+import android.util.Log
 import com.oob.carteira_digital.objects.Preferences
 
-class DBHelper(context: Context) :
-    SQLiteOpenHelper(context, "database.db", null, 1) {
+class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null, 1) {
 
     private val sql = arrayOf(
-        """
+        """              
     CREATE TABLE IF NOT EXISTS account (
     id INT PRIMARY KEY,
     is_admin BOOLEAN DEFAULT FALSE,
     is_student BOOLEAN DEFAULT FALSE,
     full_name VARCHAR(70) NOT NULL,
     email VARCHAR(50) NOT NULL,
-    password VARBINARY(255) NOT NULL,
     birth_date DATE NOT NULL,
     cpf VARCHAR(11) NOT NULL UNIQUE,
+    registration VARCHAR(50) NOT NULL UNIQUE,
     institution VARCHAR(100) NOT NULL,
     status VARCHAR(20) NOT NULL CHECK(status IN ('active', 'inactive', 'suspended')) DEFAULT 'active',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    picture VARCHAR(255),
+    picture VARCHAR(255) DEFAULT NULL,
     last_login DATETIME
     );
     
     CREATE INDEX idx_cpf ON account (cpf);
     CREATE INDEX idx_email ON account (email);
-    """,
-        """
+    """, """
     CREATE TABLE IF NOT EXISTS student (
         id INT AUTO_INCREMENT PRIMARY KEY,
         account_id INT,
         end_date TIMESTAMP NOT NULL,
-        registration VARCHAR(50) NOT NULL UNIQUE,
         courses VARCHAR(20),
         level VARCHAR(50) NOT NULL,
         FOREIGN KEY (account_id) REFERENCES account(id)
@@ -57,28 +55,33 @@ class DBHelper(context: Context) :
     }
 
     private fun selectQuery(sql: String): Map<String, String> {
-        val db = this.readableDatabase
-        val c = db.rawQuery(sql, null)
+        try {
+            val db = this.readableDatabase
+            val c = db.rawQuery(sql, null)
 
-        val results = mutableListOf<Map<String, String>>()
-        val columnNames = c.columnNames
-        while (c.moveToNext()) {
-            val rowData = mutableMapOf<String, String>()
-            for (columnName in columnNames) {
-                val columnIndex = c.getColumnIndex(columnName)
-                val value = if (!c.isNull(columnIndex)) {
-                    c.getString(columnIndex)
-                } else {
-                    "null"
+            val results = mutableListOf<Map<String, String>>()
+            val columnNames = c.columnNames
+            while (c.moveToNext()) {
+                val rowData = mutableMapOf<String, String>()
+                for (columnName in columnNames) {
+                    val columnIndex = c.getColumnIndex(columnName)
+                    val value = if (!c.isNull(columnIndex)) {
+                        c.getString(columnIndex)
+                    } else {
+                        "null"
+                    }
+                    rowData[columnName] = value
                 }
-                rowData[columnName] = value
+                results.add(rowData)
             }
-            results.add(rowData)
-        }
 
-        c.close()
-        db.close()
-        return results[0]
+            c.close()
+            db.close()
+            return results[0]
+        } catch (e: Exception) {
+            Log.e("DB", e.message.toString())
+            return emptyMap()
+        }
     }
 
     private fun insertQuery(table: String, values: ContentValues): Long {
@@ -108,16 +111,15 @@ class DBHelper(context: Context) :
             val COLUMNS = arrayOf(
                 "id",
                 "end_date",
-                "registration",
                 "courses",
                 "level",
                 "is_admin",
                 "is_student",
                 "full_name",
                 "email",
-                "password",
                 "birth_date",
                 "cpf",
+                "registration",
                 "institution",
                 "status",
                 "created_at",
@@ -129,23 +131,21 @@ class DBHelper(context: Context) :
                 when (i) {
                     0 -> {
                         accountValues.put(
-                            COLUMNS[i],
-                            params[i]
+                            COLUMNS[i], params[i]
                         )
                         studentValues.put("account_id", params[i])
                     }
 
-                    in 1..4 -> studentValues.put(COLUMNS[i], params[i])
-                    in 5..15 -> accountValues.put(COLUMNS[i], params[i])
+                    in 1..3 -> studentValues.put(COLUMNS[i], params[i])
+                    in 4..15 -> accountValues.put(COLUMNS[i], params[i])
                 }
             }
 
             dropQuery("account")
             dropQuery("student")
-
             insertQuery("account", accountValues)
+            Preferences.setAccountId(params[0])
             if (accountValues.getAsBoolean("is_student")) {
-                Preferences.setAccountId(params[0])
                 insertQuery("student", studentValues)
             }
         } catch (e: Exception) {
@@ -156,7 +156,39 @@ class DBHelper(context: Context) :
 
     fun getAccount(): Map<String, String> {
         val id = Preferences.getAccountId()
-        return selectQuery("SELECT * FROM account WHERE id = $id")
+
+        var account: Map<String, String>
+        val isStudent = selectQuery("SELECT is_student FROM account WHERE id = $id;")
+
+        if (isStudent["is_student"] == "1") {
+            account =
+                selectQuery("SELECT * FROM account a JOIN student s ON a.id = s.account_id WHERE a.id = $id;").toMutableMap()
+
+            account["birth_date"] = formatDate(account["birth_date"].toString())
+            return account
+        } else {
+            account = selectQuery("SELECT * FROM account WHERE id = $id;").toMutableMap()
+            account["birth_date"] = formatDate(account["birth_date"].toString())
+        }
+
+        return account
+    }
+
+    fun getRegistration(): String {
+        val info = getAccount()
+        val registration = info["registration"]
+        return registration.toString()
+    }
+
+    // PRIVATE FUNCTIONS
+
+    private fun formatDate(input: String): String {
+        val first10 = input.take(10)
+
+        val reversed = first10.split("-").reversed()
+        val formatted = reversed.joinToString("-")
+
+        return formatted.replace("-", "/")
     }
 
 }

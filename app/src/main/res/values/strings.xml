@@ -42,4 +42,9 @@
     <string name="support_attach">Anexos</string>
     <string name="support_submit">Enviar</string>
     <string name="edit_account_submit">Salvar</string>
+    <string name="qr_code_description">Qr Code</string>
+    <string name="home_card_full_name">Nome: %1$s</string>
+    <string name="home_card_cpf">CPF: %1$s</string>
+    <string name="home_card_birth_date">Data de Nascimento: %1$s</string>
+    <string name="home_card_course">Curso: %1$s</string>
 </resources>

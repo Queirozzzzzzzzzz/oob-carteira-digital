@@ -5,7 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".CardFragment">
 
-    <include android:id="@+id/header" layout="@layout/header" />
+    <include
+        android:id="@+id/header"
+        layout="@layout/header" />
 
     <TextView
         android:id="@+id/header_title"
@@ -54,15 +56,23 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+        <ImageView
+            android:id="@+id/barcode"
+            android:layout_width="110dp"
+            android:layout_height="75dp"
+            android:layout_marginStart="36dp"
+            android:layout_marginBottom="12dp"
+            android:adjustViewBounds="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/institution"
             android:layout_width="263dp"
             android:layout_height="88dp"
-            android:text="Escola Senai 'Hermenegildo Campos de Almeida'"
             android:textColor="@color/black"
-            android:textStyle="bold"
             android:textSize="7pt"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.843"
@@ -74,7 +84,6 @@
             android:id="@+id/full_name"
             android:layout_width="230dp"
             android:layout_height="70dp"
-            android:text="Nome: Antonio Mazzucca"
             android:textColor="@color/black"
             android:textSize="7pt"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -91,7 +100,6 @@
             android:layout_marginStart="80dp"
             android:layout_marginTop="28dp"
             android:rotation="0"
-            android:text="CPF: 45676598700"
             android:textColor="@color/black"
             android:textSize="7pt"
             app:layout_constraintStart_toEndOf="@+id/profile_picture"
@@ -103,7 +111,6 @@
             android:layout_height="46dp"
             android:layout_marginStart="80dp"
             android:layout_marginTop="52dp"
-            android:text="Data de nascimento: 26/02/00"
             android:textColor="@color/black"
             android:textSize="7pt"
             app:layout_constraintStart_toEndOf="@+id/profile_picture"
@@ -115,7 +122,6 @@
             android:layout_height="46dp"
             android:layout_marginStart="80dp"
             android:layout_marginTop="100dp"
-            android:text="Curso :Desenvolvimento de sistemas"
             android:textColor="@color/black"
             android:textSize="7pt"
             app:layout_constraintStart_toEndOf="@+id/profile_picture"
@@ -127,7 +133,6 @@
             android:layout_height="46dp"
             android:layout_marginStart="80dp"
             android:layout_marginTop="148dp"
-            android:text="Turma: DSI 3 SESI"
             android:textColor="@color/black"
             android:textSize="7pt"
             app:layout_constraintStart_toEndOf="@+id/profile_picture"
