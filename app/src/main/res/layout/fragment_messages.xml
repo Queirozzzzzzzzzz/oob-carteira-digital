@@ -9,7 +9,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity">
+        tools:context=".BaseActivity">
 
         <include
             android:id="@+id/header"
@@ -38,139 +38,22 @@
             android:textStyle="bold"
             app:layout_constraintTop_toBottomOf="@+id/header" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/notification1"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="35dp"
-            android:layout_marginEnd="24dp"
-            app:cardBackgroundColor="?android:textColorTertiary"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/header">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="130dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp">
 
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/messages_icon" />
-
-            <TextView
+            <ListView
+                android:id="@+id/notifications"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="5dp"
-                android:text="09:18"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/small_text"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="22dp"
-                android:text="Faltam 3 dias para a renovação da sua carteirinha"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/small_text_v2"
-                android:textStyle="bold" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/notification2"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="24dp"
-            app:cardBackgroundColor="?android:textColorTertiary"
-            app:cardCornerRadius="20dp"
-            app:cardElevation="10dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notification1">
-
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/messages_icon" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="5dp"
-                android:text="4d atrás"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/small_text"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="22dp"
-                android:text="Falta 1 semana para a renovação da sua carteirinha"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/small_text_v2"
-                android:textStyle="bold" />
-
-        </androidx.cardview.widget.CardView>
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/notification3"
-            android:layout_width="match_parent"
-            android:layout_height="70dp"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="24dp"
-            app:cardBackgroundColor="@color/read_message_bg"
-            app:cardCornerRadius="20dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/notification2">
-
-
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/messages_icon" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="5dp"
-                android:text="5 meses atrás"
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/small_text"
-                android:textStyle="bold" />
-
-            <TextView
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="70dp"
-                android:layout_marginTop="22dp"
-                android:text="O recadastro da sua carteirinha foi..."
-                android:textColor="?android:textColorPrimary"
-                android:textSize="@dimen/small_text_v2"
-                android:textStyle="bold" />
+                android:divider="#00000000"
+                android:dividerHeight="10dp" />
+        </LinearLayout>
 
-        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

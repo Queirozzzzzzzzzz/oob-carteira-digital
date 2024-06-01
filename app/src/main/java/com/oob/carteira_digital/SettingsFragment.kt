@@ -40,12 +40,11 @@ class SettingsFragment : Fragment() {
         val isChecked = binding.switchTheme.isChecked
         if (isChecked) {
             Preferences.setDarkTheme(true)
-            session.setTheme()
         } else {
             Preferences.setDarkTheme(false)
-            session.setTheme()
         }
 
+        session.setTheme()
     }
 
 

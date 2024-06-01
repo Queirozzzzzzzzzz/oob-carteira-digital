@@ -88,8 +88,16 @@ object Preferences {
         return Key.KEY_DARK_THEME.getBoolean() ?: false
     }
 
+    fun isStartup(): Boolean {
+        return Key.KEY_STARTUP.getBoolean() ?: false
+    }
+
+    fun setStartup(startup: Boolean) {
+        Key.KEY_STARTUP.setBoolean(startup)
+    }
+
     private enum class Key {
-        KEY_AUTH_TOKEN, KEY_AUTH_EXPIRE_DATE, KEY_ACCOUNT_ID, KEY_AUTH_CPF, KEY_AUTH_PASSWORD, KEY_DARK_THEME;
+        KEY_AUTH_TOKEN, KEY_AUTH_EXPIRE_DATE, KEY_ACCOUNT_ID, KEY_AUTH_CPF, KEY_AUTH_PASSWORD, KEY_DARK_THEME, KEY_STARTUP;
 
         fun getBoolean(): Boolean? =
             if (prefs!!.contains(name)) prefs!!.getBoolean(name, false) else null

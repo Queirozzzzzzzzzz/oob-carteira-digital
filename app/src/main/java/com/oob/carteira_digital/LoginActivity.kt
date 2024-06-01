@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
 import androidx.biometric.BiometricPrompt.PromptInfo
@@ -52,13 +53,6 @@ class LoginActivity : AppCompatActivity(), InternetConnectionCallback {
         }
     }
 
-    override fun onResume() {
-        super.onResume()
-        if (session.isLoggedIn()) {
-            session.startSession()
-        }
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         InternetConnectionObserver.unRegister()
@@ -71,6 +65,7 @@ class LoginActivity : AppCompatActivity(), InternetConnectionCallback {
                     val info = viewModel.getInfo()
                     db.saveAccount(info)
                 }
+
                 session.startSession()
             } catch (e: Exception) {
                 runOnUiThread {

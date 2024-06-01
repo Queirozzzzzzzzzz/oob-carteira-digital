@@ -25,6 +25,7 @@ SessionManager {
 
 
     fun startSession() {
+        Preferences.setStartup(true)
         val i = Intent(con, BaseActivity::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -37,6 +38,7 @@ SessionManager {
 
     fun endSession() {
         Preferences.setAuthExpireDate("")
+        Preferences.setStartup(true)
         val i = Intent(con, LoginActivity::class.java)
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -45,7 +47,7 @@ SessionManager {
 
     fun setTheme() {
         val isChecked = Preferences.isDarkTheme()
-        if(isChecked) {
+        if (isChecked) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)

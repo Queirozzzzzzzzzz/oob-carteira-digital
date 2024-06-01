@@ -1,13 +1,18 @@
 package com.oob.carteira_digital
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.oob.carteira_digital.databinding.ActivityBaseBinding
+import com.oob.carteira_digital.models.DBHelper
 import com.oob.carteira_digital.models.SessionManager
+import com.oob.carteira_digital.objects.Preferences
+import com.oob.carteira_digital.viewmodels.VMNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -16,6 +21,7 @@ open class BaseActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBaseBinding
     private lateinit var session: SessionManager
+    private var vmNotification = VMNotification()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,96 +32,111 @@ open class BaseActivity : AppCompatActivity() {
             val itemId = item.itemId
             when (itemId) {
                 R.id.home -> {
-                    startSession(HomeFragment(), false)
+                    startSession(HomeFragment())
                 }
 
                 R.id.card -> {
-                    startSession(CardFragment(), false)
+                    startSession(CardFragment())
                 }
 
                 R.id.qr_code -> {
-                    startSession(QrCodeFragment(), false)
+                    startSession(QrCodeFragment())
                 }
 
                 R.id.messages -> {
-                    startSession(MessagesFragment(), false)
+                    startSession(MessagesFragment())
                 }
 
                 else -> {
-                    startSession(SettingsFragment(), false)
+                    startSession(SettingsFragment())
                 }
             }
             true
         }
 
-        startSession(HomeFragment(), true)
+        startSession(HomeFragment())
+
+        if (Preferences.isStartup()) {
+            CoroutineScope(Dispatchers.IO).launch {
+                getNotifications()
+            }
+        }
+
         session = SessionManager(this, applicationContext)
         checkLogin()
+
+        Preferences.setStartup(false)
     }
 
-    private fun startSession(fragment: Fragment, isAppInitialized: Boolean) {
+    private fun startSession(fragment: Fragment) {
         val fragmentManager: FragmentManager = supportFragmentManager
         val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
 
-        if (isAppInitialized) {
-            fragmentTransaction.add(R.id.frameLayout, fragment)
-        } else {
-            fragmentTransaction.replace(R.id.frameLayout, fragment)
-        }
+        fragmentTransaction.replace(R.id.frameLayout, fragment)
 
         fragmentTransaction.commit()
     }
+
 
     // FUNÇÃO MUDAR ACTIVITY POR CARDVIEW
     fun cardFragment(view: View) {
         binding.bottomNavView.menu.findItem(R.id.card).isChecked = true
 
-        startSession(CardFragment(), false)
+        startSession(CardFragment())
     }
 
     fun settingsFragment(view: View) {
         binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
-        startSession(SettingsFragment(), false)
+        startSession(SettingsFragment())
     }
 
     fun homeFragment(view: View) {
         binding.bottomNavView.menu.findItem(R.id.home).isChecked = true
-        startSession(HomeFragment(), false)
+        startSession(HomeFragment())
     }
 
     fun qrCodeFragment(view: View) {
         binding.bottomNavView.menu.findItem(R.id.qr_code).isChecked = true
-        startSession(QrCodeFragment(), false)
+        startSession(QrCodeFragment())
     }
 
     fun messagesFragment(view: View) {
         binding.bottomNavView.menu.findItem(R.id.messages).isChecked = true
-        startSession(MessagesFragment(), false)
+        startSession(MessagesFragment())
     }
 
     fun newCardFragment(view: View) {
         binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
-        startSession(NewCardFragment(), false)
+        startSession(NewCardFragment())
     }
 
     fun accountFragment(view: View) {
         binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
-        startSession(AccountFragment(), false)
+        startSession(AccountFragment())
     }
 
     fun newPasswordFragment(view: View) {
         binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
-        startSession(NewPasswordFragment(), false)
+        startSession(NewPasswordFragment())
     }
 
     fun supportFragment(view: View) {
         binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
-        startSession(SupportFragment(), false)
+        startSession(SupportFragment())
     }
 
     fun editAccountFragment(view: View) {
         binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
-        startSession(EditAccountFragment(), false)
+        startSession(EditAccountFragment())
+    }
+
+    private suspend fun getNotifications() {
+        val db = DBHelper(this)
+        var notifications = vmNotification.getNotifications()
+        if (notifications.isNotEmpty()) {
+            db.insertNotifications(notifications)
+        }
+
     }
 
     override fun onResume() {

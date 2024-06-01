@@ -38,6 +38,14 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
         level VARCHAR(50) NOT NULL,
         FOREIGN KEY (account_id) REFERENCES account(id)
     );
+    """, """
+    CREATE TABLE IF NOT EXISTS notification (
+        id INT PRIMARY KEY,
+        title VARCHAR (255),
+        content VARCHAR(255),
+        created_at TIMESTAMP NOT NULL,
+        read BOOLEAN DEFAULT FALSE
+    );
     """
     )
 
@@ -54,7 +62,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
         sql.forEach { db.execSQL(it) }
     }
 
-    private fun selectQuery(sql: String): Map<String, String> {
+    private fun selectMapQuery(sql: String): Map<String, String> {
         try {
             val db = this.readableDatabase
             val c = db.rawQuery(sql, null)
@@ -84,6 +92,36 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
         }
     }
 
+    private fun selectListQuery(sql: String): List<Map<String, String>> {
+        val results = mutableListOf<Map<String, String>>()
+        try {
+            val db = this.readableDatabase
+            val c = db.rawQuery(sql, null)
+
+            val columnNames = c.columnNames
+            while (c.moveToNext()) {
+                val rowData = mutableMapOf<String, String>()
+                for (columnName in columnNames) {
+                    val columnIndex = c.getColumnIndex(columnName)
+                    val value = if (!c.isNull(columnIndex)) {
+                        c.getString(columnIndex)
+                    } else {
+                        "null"
+                    }
+                    rowData[columnName] = value
+                }
+                results.add(rowData)
+            }
+
+            c.close()
+            db.close()
+        } catch (e: Exception) {
+            Log.e("DB", e.message.toString())
+        }
+        return results
+    }
+
+
     private fun insertQuery(table: String, values: ContentValues): Long {
         val db = this.writableDatabase
         val res = db.insert(table, null, values)
@@ -108,7 +146,7 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
         try {
             val accountValues = ContentValues()
             val studentValues = ContentValues()
-            val COLUMNS = arrayOf(
+            val columns = arrayOf(
                 "id",
                 "end_date",
                 "courses",
@@ -131,13 +169,13 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
                 when (i) {
                     0 -> {
                         accountValues.put(
-                            COLUMNS[i], params[i]
+                            columns[i], params[i]
                         )
                         studentValues.put("account_id", params[i])
                     }
 
-                    in 1..3 -> studentValues.put(COLUMNS[i], params[i])
-                    in 4..15 -> accountValues.put(COLUMNS[i], params[i])
+                    in 1..3 -> studentValues.put(columns[i], params[i])
+                    in 4..15 -> accountValues.put(columns[i], params[i])
                 }
             }
 
@@ -154,24 +192,46 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
         }
     }
 
+    fun insertNotifications(params: List<String>) {
+        try {
+            val columns = arrayOf("id", "title", "content", "created_at")
+            val notifications = processNotifications(params)
+
+            for (i in notifications.indices) {
+                val values = ContentValues()
+                for (j in notifications[i].indices) {
+                    values.put(columns[j], notifications[i][j])
+                }
+                insertQuery("notification", values)
+            }
+        } catch (e: Exception) {
+            Log.e("NOTIFICATION", e.message.toString())
+        }
+    }
+
     fun getAccount(): Map<String, String> {
         val id = Preferences.getAccountId()
 
         var account: Map<String, String>
-        val isStudent = selectQuery("SELECT is_student FROM account WHERE id = $id;")
+        val isStudent = selectMapQuery("SELECT is_student FROM account WHERE id = $id;")
 
         if (isStudent["is_student"] == "1") {
             account =
-                selectQuery("SELECT * FROM account a JOIN student s ON a.id = s.account_id WHERE a.id = $id;").toMutableMap()
+                selectMapQuery("SELECT * FROM account a JOIN student s ON a.id = s.account_id WHERE a.id = $id;").toMutableMap()
 
             account["birth_date"] = formatDate(account["birth_date"].toString())
             return account
         } else {
-            account = selectQuery("SELECT * FROM account WHERE id = $id;").toMutableMap()
+            account = selectMapQuery("SELECT * FROM account WHERE id = $id;").toMutableMap()
             account["birth_date"] = formatDate(account["birth_date"].toString())
         }
 
         return account
+    }
+
+    fun getNotifications(): List<Map<String, String>> {
+        val notifications = selectListQuery("SELECT * FROM notification ORDER BY id DESC;")
+        return notifications
     }
 
     fun getRegistration(): String {
@@ -189,6 +249,18 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
         val formatted = reversed.joinToString("-")
 
         return formatted.replace("-", "/")
+    }
+
+    private fun processNotifications(params: List<String>): List<List<String>> {
+        val notifications = mutableListOf<List<String>>()
+        val notificationSize = 4
+
+        for (i in params.indices step notificationSize) {
+            val notification = params.subList(i, (i + notificationSize).coerceAtMost(params.size))
+            notifications.add(notification)
+        }
+
+        return notifications
     }
 
 }
