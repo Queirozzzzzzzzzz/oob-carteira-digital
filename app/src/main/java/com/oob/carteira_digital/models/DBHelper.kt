@@ -41,8 +41,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
     """, """
     CREATE TABLE IF NOT EXISTS notification (
         id INT PRIMARY KEY,
-        title VARCHAR (255),
-        content VARCHAR(255),
+        title TEXT NOT NULL,
+        content TEXT NOT NULL,
         created_at TIMESTAMP NOT NULL,
         read BOOLEAN DEFAULT FALSE
     );
@@ -129,9 +129,9 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
         return res
     }
 
-    private fun deleteQuery(table: String, id: String) {
+    private fun updateQuery(sql: String) {
         val db = this.writableDatabase
-        db.delete(table, "id=?", arrayOf(id))
+        db.execSQL(sql)
         db.close()
     }
 
@@ -232,6 +232,19 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
     fun getNotifications(): List<Map<String, String>> {
         val notifications = selectListQuery("SELECT * FROM notification ORDER BY id DESC;")
         return notifications
+    }
+
+    fun getUnreadNotifications(): List<Map<String, String>> {
+        val notifications = selectListQuery("SELECT * FROM notification WHERE read = 0 ORDER BY id DESC;")
+        return notifications
+    }
+
+    fun markAllNotificationsAsRead() {
+        updateQuery("UPDATE notification SET read = 1;")
+    }
+
+    fun updateNotificationReadStatus(id: String) {
+        updateQuery("UPDATE notification SET read = 1 WHERE id = $id;")
     }
 
     fun getRegistration(): String {
