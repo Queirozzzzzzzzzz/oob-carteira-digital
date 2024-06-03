@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
@@ -28,6 +29,7 @@ open class BaseActivity : AppCompatActivity() {
     private val db = DBHelper(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
         super.onCreate(savedInstanceState)
         binding = ActivityBaseBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -213,7 +215,7 @@ open class BaseActivity : AppCompatActivity() {
             putExtra(Intent.EXTRA_TEXT, message)
         }
 
-        startActivity(Intent.createChooser(emailIntent, "Send Email"))
+        startActivity(Intent.createChooser(emailIntent, "Enviar E-mail"))
     }
 
     fun openMessage(messageId: String, title: String, content: String, view: View) {
