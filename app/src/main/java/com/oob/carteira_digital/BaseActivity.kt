@@ -1,5 +1,7 @@
 package com.oob.carteira_digital
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
@@ -131,10 +133,9 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun newCardFragment(view: View) {
-        checkReadMessages()
-        setMessagesIcon()
-        binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
-        startSession(NewCardFragment())
+        val title = "Carteira Digital - Solicitação de Cartão Físico."
+        val message = "Motivo: "
+        sendEmail(title, message)
     }
 
     fun accountFragment(view: View) {
@@ -152,10 +153,9 @@ open class BaseActivity : AppCompatActivity() {
     }
 
     fun supportFragment(view: View) {
-        checkReadMessages()
-        setMessagesIcon()
-        binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
-        startSession(SupportFragment())
+        val title = "Carteira Digital - Solicitação de Suporte."
+        val message = ""
+        sendEmail(title, message)
     }
 
     fun editAccountFragment(view: View) {
@@ -203,6 +203,17 @@ open class BaseActivity : AppCompatActivity() {
                     AppCompatResources.getDrawable(this, R.drawable.messages_icon)
             }
         }
+    }
+
+    private fun sendEmail(title: String, message: String) {
+        val emailIntent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, arrayOf("outofboxlibrary@gmail.com"))
+            putExtra(Intent.EXTRA_SUBJECT, title)
+            putExtra(Intent.EXTRA_TEXT, message)
+        }
+
+        startActivity(Intent.createChooser(emailIntent, "Send Email"))
     }
 
     fun openMessage(messageId: String, title: String, content: String, view: View) {
