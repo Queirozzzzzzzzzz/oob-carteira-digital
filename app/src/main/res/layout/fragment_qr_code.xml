@@ -16,4 +16,14 @@
         android:layout_marginTop="50dp"
         android:contentDescription="@string/qr_code_description" />
 
+    <TextView
+        android:id="@+id/qr_code_denied_access"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="@string/qr_code_denied_access"
+        android:textColor="?android:attr/textColorPrimary"
+        android:textSize="24sp"
+        android:visibility="gone" />
+
 </RelativeLayout>

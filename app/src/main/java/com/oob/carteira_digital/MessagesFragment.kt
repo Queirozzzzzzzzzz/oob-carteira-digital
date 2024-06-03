@@ -34,8 +34,9 @@ class MessagesFragment : Fragment() {
 
         for (notification in notifications) {
             val updatedNotification = notification.toMutableMap()
-            if(notification["created_at"]!= null) {
-                updatedNotification["created_at"] = getUiCreatedAt(notification["created_at"].toString())
+            if (notification["created_at"] != null) {
+                updatedNotification["created_at"] =
+                    getUiCreatedAt(notification["created_at"].toString())
             }
             updatedNotifications.add(updatedNotification)
         }
@@ -57,7 +58,9 @@ class MessagesFragment : Fragment() {
         val daysAgo = hoursAgo / 24
         val monthsAgo = daysAgo / 30
 
-        return if (minutesAgo < 60) {
+        return if (diffInSeconds < 60) {
+            "Agora"
+        } else if (minutesAgo < 60) {
             "${minutesAgo}m atrás"
         } else if (hoursAgo < 24) {
             "${hoursAgo}h atrás"

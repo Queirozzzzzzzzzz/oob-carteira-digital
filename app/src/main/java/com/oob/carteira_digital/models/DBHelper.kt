@@ -33,7 +33,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
     CREATE TABLE IF NOT EXISTS student (
         id INT AUTO_INCREMENT PRIMARY KEY,
         account_id INT,
-        end_date TIMESTAMP NOT NULL,
         courses VARCHAR(20),
         level VARCHAR(50) NOT NULL,
         FOREIGN KEY (account_id) REFERENCES account(id)
@@ -148,7 +147,6 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
             val studentValues = ContentValues()
             val columns = arrayOf(
                 "id",
-                "end_date",
                 "courses",
                 "level",
                 "is_admin",
@@ -174,8 +172,8 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
                         studentValues.put("account_id", params[i])
                     }
 
-                    in 1..3 -> studentValues.put(columns[i], params[i])
-                    in 4..15 -> accountValues.put(columns[i], params[i])
+                    in 1..2 -> studentValues.put(columns[i], params[i])
+                    in 3..14 -> accountValues.put(columns[i], params[i])
                 }
             }
 
@@ -237,6 +235,12 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
     fun getUnreadNotifications(): List<Map<String, String>> {
         val notifications = selectListQuery("SELECT * FROM notification WHERE read = 0 ORDER BY id DESC;")
         return notifications
+    }
+
+    fun getCourses(): String {
+        val account = getAccount()
+        val courses = account["courses"]
+        return courses.toString()
     }
 
     fun markAllNotificationsAsRead() {

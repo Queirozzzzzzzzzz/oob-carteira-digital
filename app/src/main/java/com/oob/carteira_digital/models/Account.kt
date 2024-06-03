@@ -2,6 +2,8 @@ package com.oob.carteira_digital.models
 
 import android.util.Log
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+import com.oob.carteira_digital.CardFragment
 import com.oob.carteira_digital.api.Service
 import com.oob.carteira_digital.objects.Preferences
 import kotlinx.coroutines.Dispatchers
@@ -37,6 +39,9 @@ class Account {
     }
 
     suspend fun biometricLogin(): String {
+        if(Preferences.getAuthCpf().isEmpty() || Preferences.getAuthPassword().isEmpty()) {
+            return "Login biométrico sem dados salvos. Preencha o formulário manualmente."
+        }
         return login(Preferences.getAuthCpf(), Preferences.getAuthPassword())
     }
 
@@ -87,5 +92,14 @@ class Account {
         } else {
             emptyList()
         }
+    }
+
+    fun getCourses(coursesRaw: String): List<CardFragment.Course> {
+        val courses = coursesRaw.replace("class", "c_class")
+        val nCourses: List<CardFragment.Course> = Gson().fromJson(
+            courses, object : TypeToken<List<CardFragment.Course?>?>() {}.type
+        )
+
+        return nCourses
     }
 }

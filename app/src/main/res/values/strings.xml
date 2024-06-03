@@ -47,4 +47,12 @@
     <string name="home_card_cpf">CPF: %1$s</string>
     <string name="home_card_birth_date">Data de Nascimento: %1$s</string>
     <string name="home_card_course">Curso: %1$s</string>
+    <string name="account_birth_date">Data de Nascimento</string>
+    <string name="account_registration">Matrícula</string>
+    <string name="account_cpf">CPF</string>
+    <string name="account_level">Nível</string>
+    <string name="account_course">Curso</string>
+    <string name="account_class">Turma</string>
+    <string name="support_title">Suporte</string>
+    <string name="qr_code_denied_access">Acesso negado.</string>
 </resources>

@@ -30,7 +30,7 @@ class LoginActivity : AppCompatActivity(), InternetConnectionCallback {
     private lateinit var session: SessionManager
     private lateinit var viewModel: VMAccount
     private var db = DBHelper(this)
-    private var isConnected = false
+    private var isConnected = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
