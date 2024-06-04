@@ -54,6 +54,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-desktop:1.6.7")
     implementation("com.journeyapps:zxing-android-embedded:4.3.0")
     implementation("androidx.work:work-runtime-ktx:2.9.0")
+    implementation("androidx.activity:activity:1.8.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("androidx.multidex:multidex:2.0.1")
     testImplementation("junit:junit:4.13.2")

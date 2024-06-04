@@ -1,5 +1,6 @@
 package com.oob.carteira_digital
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
@@ -34,7 +35,9 @@ class LoginActivity : AppCompatActivity(), InternetConnectionCallback {
     private var isConnected = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE
+        );
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -52,6 +55,10 @@ class LoginActivity : AppCompatActivity(), InternetConnectionCallback {
         } else {
             setLogin()
             checkBiometricSupported()
+            binding.forgotPassword.setOnClickListener {
+                val intent = Intent(this, ForgotPasswordActivity::class.java)
+                startActivity(intent)
+            }
         }
     }
 

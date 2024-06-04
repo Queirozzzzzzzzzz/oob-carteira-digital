@@ -33,13 +33,17 @@ class Account {
             Preferences.setAuthPassword(password)
             "true"
         } else {
-            val result = gson.fromJson(response.errorBody()?.string(), Any::class.java)
-            result.toString()
+            try {
+                response.errorBody()?.string().toString()
+            } catch (e: Exception) {
+                Log.e("LOGIN", e.toString())
+                "Falha interna."
+            }
         }
     }
 
     suspend fun biometricLogin(): String {
-        if(Preferences.getAuthCpf().isEmpty() || Preferences.getAuthPassword().isEmpty()) {
+        if (Preferences.getAuthCpf().isEmpty() || Preferences.getAuthPassword().isEmpty()) {
             return "Login biométrico sem dados salvos. Preencha o formulário manualmente."
         }
         return login(Preferences.getAuthCpf(), Preferences.getAuthPassword())
@@ -101,5 +105,41 @@ class Account {
         )
 
         return nCourses
+    }
+
+    suspend fun forgotPassword(email: String): String {
+        val response = withContext(Dispatchers.IO) {
+            service.forgotPassword(email)
+        }
+
+        return if (!response.isSuccessful) {
+            val result = gson.fromJson(response.errorBody()?.string(), Any::class.java)
+            Log.e("RESET_PASSWORD", result.toString())
+            "false"
+        } else {
+            "true"
+        }
+    }
+
+    suspend fun resetPassword(newPassword: String, confirmNewPassword: String): String {
+        val params = HashMap<String?, String?>()
+        params["new_password"] = newPassword
+        params["confirm_new_password"] = confirmNewPassword
+
+        val response = withContext(Dispatchers.IO) {
+            service.resetPassword(params)
+        }
+
+        return if (!response.isSuccessful) {
+            val result = gson.fromJson(response.errorBody()?.string(), Any::class.java)
+            Log.e("RESET_PASSWORD", result.toString())
+            "Falha interna."
+        } else {
+            if (response.code() == 200) {
+                "true"
+            } else {
+                gson.fromJson(response.errorBody()?.string(), Any::class.java).toString()
+            }
+        }
     }
 }

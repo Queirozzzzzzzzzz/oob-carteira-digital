@@ -55,4 +55,7 @@
     <string name="account_class">Turma</string>
     <string name="support_title">Suporte</string>
     <string name="qr_code_denied_access">Acesso negado.</string>
+    <string name="forgot_password_title">Confirmar E-mail</string>
+    <string name="forgot_password_hint">E-mail</string>
+    <string name="forgot_password_submit">Solicitar</string>
 </resources>

@@ -18,6 +18,9 @@
         android:theme="@style/Theme.Carteiradigital"
         tools:targetApi="31">
         <activity
+            android:name=".ForgotPasswordActivity"
+            android:exported="false" />
+        <activity
             android:name=".SupportFragment"
             android:exported="false" />
         <activity

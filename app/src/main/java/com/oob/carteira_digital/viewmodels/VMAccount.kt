@@ -33,6 +33,22 @@ class VMAccount : ViewModel() {
         return account.checkLogin()
     }
 
+    suspend fun forgotPassword(email: String): String {
+        return account.forgotPassword(email)
+    }
+
+    suspend fun resetPassword(newPassword: String, confirmNewPassword: String): String {
+        if (newPassword.isEmpty() || confirmNewPassword.isEmpty()) {
+            return "Preencha todos os campos"
+        }
+
+        if (newPassword != confirmNewPassword) {
+            return "As senhas não coincidem"
+        }
+
+        return account.resetPassword(newPassword, confirmNewPassword)
+    }
+
     suspend fun getInfo(): List<String> {
         val info = account.getAccountInfo()
         return info

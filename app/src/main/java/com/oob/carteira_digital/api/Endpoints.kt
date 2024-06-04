@@ -20,4 +20,12 @@ interface Endpoints {
     @POST("/api/v1/notification/get")
     suspend fun getNotifications(@Field("id") id: String): Response<ResponseBody>
 
+    @FormUrlEncoded
+    @POST("/api/v1/password/forgot")
+    suspend fun forgotPassword(@Field("email") email: String): Response<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("/api/v1/password/reset")
+    suspend fun resetPassword(@FieldMap params: HashMap<String?, String?>): Response<ResponseBody>
+
 }
