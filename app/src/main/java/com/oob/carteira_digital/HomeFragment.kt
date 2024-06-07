@@ -36,9 +36,8 @@ class HomeFragment : Fragment() {
 
     private fun isValid() {
         val account = db.getAccount()
-        var isValid = false
 
-        isValid = if (account["is_student"] == "0") {
+        val isValid: Boolean = if (account["is_student"] == "0") {
             false
         } else {
             vmAccount.isValidCourse(account["courses"]!!)

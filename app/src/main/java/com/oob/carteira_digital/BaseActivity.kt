@@ -14,6 +14,7 @@ import com.oob.carteira_digital.databinding.ActivityBaseBinding
 import com.oob.carteira_digital.models.DBHelper
 import com.oob.carteira_digital.models.SessionManager
 import com.oob.carteira_digital.objects.Preferences
+import com.oob.carteira_digital.viewmodels.VMAccount
 import com.oob.carteira_digital.viewmodels.VMNotification
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +28,7 @@ open class BaseActivity : AppCompatActivity() {
     private var vmNotification = VMNotification()
     private var hasMessages = false
     private val db = DBHelper(this)
+    private val vmaccount = VMAccount()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         window.setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
@@ -158,13 +160,6 @@ open class BaseActivity : AppCompatActivity() {
         val title = "Carteira Digital - Solicitação de Suporte."
         val message = ""
         sendEmail(title, message)
-    }
-
-    fun editAccountFragment(view: View) {
-        checkReadMessages()
-        setMessagesIcon()
-        binding.bottomNavView.menu.findItem(R.id.settings).isChecked = true
-        startSession(EditAccountFragment())
     }
 
     private fun startBackgroundJob() {

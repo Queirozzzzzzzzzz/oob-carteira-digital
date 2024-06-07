@@ -73,22 +73,16 @@ class VMAccount : ViewModel() {
                     DayOfWeek.SATURDAY to "Sábado",
                     DayOfWeek.SUNDAY to "Domingo"
                 )
-                val days = course.days.split(",").map { it.trim() }.toSet()
                 val todayDate = LocalDate.now()
                 val todayDayRaw = todayDate.dayOfWeek
                 val todayDay = customDayNames[todayDayRaw] ?: ""
-                val enterTime = LocalTime.parse(course.enter_time)
-                val leaveTime = LocalTime.parse(course.leave_time)
-                val currentTime = LocalTime.now()
                 val formatter = DateTimeFormatter.ISO_DATE_TIME.withZone(ZoneOffset.UTC)
                 val endDateRaw = course.end_date
                 val endDate = LocalDate.parse(endDateRaw, formatter)
                 val currentDate = LocalDate.now()
-
-                if (endDate.isAfter(currentDate) && todayDay in days && currentTime.isAfter(
-                        enterTime
-                    ) && currentTime.isBefore(leaveTime)
-                ) {
+                print(course)
+                println(todayDay)
+                if (endDate.isAfter(currentDate) && course.days.contains(todayDay)) {
                     valid = true
                 }
             }

@@ -228,12 +228,12 @@ class DBHelper(context: Context) : SQLiteOpenHelper(context, "database.db", null
     }
 
     fun getNotifications(): List<Map<String, String>> {
-        val notifications = selectListQuery("SELECT * FROM notification ORDER BY id DESC;")
+        val notifications = selectListQuery("SELECT * FROM notification ORDER BY created_at DESC;")
         return notifications
     }
 
     fun getUnreadNotifications(): List<Map<String, String>> {
-        val notifications = selectListQuery("SELECT * FROM notification WHERE read = 0 ORDER BY id DESC;")
+        val notifications = selectListQuery("SELECT * FROM notification WHERE read = 0 ORDER BY created_at DESC;")
         return notifications
     }
 

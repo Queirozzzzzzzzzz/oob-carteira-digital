@@ -114,7 +114,7 @@ class Account {
 
         return if (!response.isSuccessful) {
             val result = gson.fromJson(response.errorBody()?.string(), Any::class.java)
-            Log.e("RESET_PASSWORD", result.toString())
+            Log.e("FORGOT_PASSWORD", result.toString())
             "false"
         } else {
             "true"
